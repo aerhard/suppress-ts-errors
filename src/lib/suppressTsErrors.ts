@@ -1,5 +1,15 @@
-import type { SourceFile } from "ts-morph";
+import type { Diagnostic, SourceFile, ts } from "ts-morph";
 import { buildComment } from "./buildComment";
+
+const getMessage = (diagnostic: Diagnostic<ts.Diagnostic>) => {
+	let errorMessage = diagnostic.getMessageText();
+	if (typeof errorMessage !== "string") {
+		errorMessage = errorMessage.getMessageText();
+	}
+	errorMessage = errorMessage.split("\n")[0];
+
+	return errorMessage;
+};
 
 export const suppressTsErrors = ({
 	sourceFile,
@@ -38,6 +48,7 @@ export const suppressTsErrors = ({
 			commentType: commentType,
 			errorCode: d.getCode(),
 			withErrorCode: withErrorCode,
+			message: getMessage(d),
 		});
 
 		// Insert comment

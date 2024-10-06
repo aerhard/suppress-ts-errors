@@ -59,12 +59,14 @@ export const buildComment = ({
 	commentType,
 	errorCode,
 	withErrorCode,
+	message,
 }: {
 	sourceFile: SourceFile;
 	lineNumber: number;
 	commentType: number;
 	errorCode: number;
 	withErrorCode: boolean;
+	message: string;
 }): string => {
 	const comment =
 		commentType === 1 ? COMMENT_TYPE.EXPECT_ERROR : COMMENT_TYPE.IGNORE;
@@ -76,8 +78,8 @@ export const buildComment = ({
 	return isSomKindOfJsxAtLine(sourceFile, lineNumber)
 		? `${" ".repeat(whiteSpaceCount)}{/*\n${" ".repeat(
 				whiteSpaceCount + 1,
-			)}// ${comment}${withErrorCode ? ` TS${errorCode}` : ""} */}`
+			)}// ${comment}${withErrorCode ? ` TS${errorCode} FIXME: ${message}` : ""} */}`
 		: `${" ".repeat(whiteSpaceCount)}// ${comment}${
-				withErrorCode ? ` TS${errorCode}` : ""
+				withErrorCode ? ` TS${errorCode} FIXME: ${message}` : ""
 			}`;
 };

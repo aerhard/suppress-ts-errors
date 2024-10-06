@@ -171,6 +171,7 @@ function tsxFunc(num: number) {
 				commentType,
 				errorCode,
 				withErrorCode,
+        message: '',
 			});
 
 			expect(result).toBe(expected);
